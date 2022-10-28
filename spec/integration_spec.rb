@@ -80,5 +80,25 @@ RSpec.describe 'integration' do
       end
     end
   end
+
+  describe '#add' do
+    it 'adds a task to the todo list' do
+      todo_list = TodoList.new
+      task = Task.new("task")
+      expect(todo_list.add(task)).to eq [task]
+    end
+  end
+
+  describe '#see_tasks' do
+    it 'shows a list of all tasks added' do
+      todo_list = TodoList.new
+      task_1 = Task.new("task 1")
+      task_2 = Task.new("task 2")
+      todo_list.add(task_1)
+      todo_list.add(task_2)
+      expect(todo_list.see_tasks).to eq [task_1, task_2]
+    end
+  end
+      
 end
   
