@@ -12,6 +12,7 @@ class DiaryEntry
   end
   
   def reading_time(wpm)
+    raise "Reading speed must be above zero" if wpm <= 0
     (count_words / wpm.to_f).ceil
   end
 end

@@ -16,11 +16,22 @@ RSpec.describe DiaryEntry do
   end
 
   describe '#reading_time' do
-    it 'returns the number of minutes needed for reading depending on the reading speed given' do
-      diary_entry = DiaryEntry.new("title", "contents " * 500)
-      diary_entry.contents
-      diary_entry.count_words
-      expect(diary_entry.reading_time(150)).to eq 4
+    context 'when reading time is not positive number' do
+      it 'fails' do
+        diary_entry = DiaryEntry.new("title", "contents " * 500)
+        diary_entry.contents
+        diary_entry.count_words
+        expect { diary_entry.reading_time(0) }.to raise_error "Reading speed must be above zero"
+      end
+    end
+
+    context 'when the wpm is a reasonable number' do 
+      it 'returns the number of minutes needed for reading' do
+        diary_entry = DiaryEntry.new("title", "contents " * 500)
+        diary_entry.contents
+        diary_entry.count_words
+        expect(diary_entry.reading_time(150)).to eq 4
+      end
     end
   end
 end

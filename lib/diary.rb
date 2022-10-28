@@ -24,6 +24,8 @@ class Diary
   # end
 
   def select_entries_to_read(wpm, minutes)
+    raise "Reading speed must be above zero" if wpm <= 0
+    raise "You have no time to read right now" if minutes <= 0
     @entries.filter do |entry|
       if entry.count_words <= wpm * minutes
         @readable_entries << entry

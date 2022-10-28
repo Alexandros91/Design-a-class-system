@@ -47,13 +47,37 @@ RSpec.describe 'integration' do
   # end
 
   describe '#select_entries_to_read' do
-    it 'shows the readbale entries at the time' do
-      diary = Diary.new
-      diary_entry_1 = DiaryEntry.new("title", "one two three four five six")
-      diary_entry_2 = DiaryEntry.new("title_2", "one two three four five")
-      diary.add(diary_entry_1)
-      diary.add(diary_entry_2)
-      expect(diary.select_entries_to_read(4, 2)).to eq [diary_entry_1, diary_entry_2]
+    context 'when the wpm is 0' do
+      it 'fails' do
+        diary = Diary.new
+        diary_entry_1 = DiaryEntry.new("title", "one two three four five six")
+        diary_entry_2 = DiaryEntry.new("title_2", "one two three four five")
+        diary.add(diary_entry_1)
+        diary.add(diary_entry_2)
+        expect { diary.select_entries_to_read(0, 5) }.to raise_error "Reading speed must be above zero"
+      end
+    end
+
+    context 'when the available minutes are zero' do
+      it 'fails' do
+        diary = Diary.new
+        diary_entry_1 = DiaryEntry.new("title", "one two three four five six")
+        diary_entry_2 = DiaryEntry.new("title_2", "one two three four five")
+        diary.add(diary_entry_1)
+        diary.add(diary_entry_2)
+        expect { diary.select_entries_to_read(4, 0) }.to raise_error "You have no time to read right now"
+      end
+    end
+
+    context 'when both the wpm and minutes variables are reasonable numbers' do
+      it 'shows the readable entries at the time' do
+        diary = Diary.new
+        diary_entry_1 = DiaryEntry.new("title", "one two three four five six")
+        diary_entry_2 = DiaryEntry.new("title_2", "one two three four five")
+        diary.add(diary_entry_1)
+        diary.add(diary_entry_2)
+        expect(diary.select_entries_to_read(4, 2)).to eq [diary_entry_1, diary_entry_2]
+      end
     end
   end
 end
