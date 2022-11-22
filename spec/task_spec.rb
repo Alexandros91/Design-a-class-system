@@ -5,5 +5,4 @@ RSpec.describe Task do
     task = Task.new("Clean the balcony")
     expect(task.title).to eq "Clean the balcony"
   end
-
 end

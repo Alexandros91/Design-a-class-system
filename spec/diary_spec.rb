@@ -15,4 +15,9 @@ RSpec.describe Diary do
     diary = Diary.new
     expect(diary.select_entries_to_read(2, 2)).to eq []
   end
+
+  it 'initially has no contect numbers' do
+    diary = Diary.new
+    expect { diary.see_contact_numbers }.to raise_error "No contact numbers found"
+  end
 end

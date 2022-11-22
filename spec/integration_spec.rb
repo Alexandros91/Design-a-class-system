@@ -105,6 +105,19 @@ RSpec.describe 'integration' do
         expect(diary.see_contact_numbers).to eq ["07647382910", "07600082910"]
       end
     end
+
+    context 'when there are duplicate numbers' do
+      it 'shows each number once' do
+        diary = Diary.new
+        diary_entry_1 = DiaryEntry.new("title", "07600082910")
+        diary_entry_2 = DiaryEntry.new("title_2", "his number is 07647382910")
+        diary_entry_3 = DiaryEntry.new("title_3", "her number is 07600082910")
+        diary.add(diary_entry_1)
+        diary.add(diary_entry_2)
+        diary.add(diary_entry_3)
+        expect(diary.see_contact_numbers).to eq ["07600082910", "07647382910"]
+      end
+    end
   end
 
   describe '#add' do

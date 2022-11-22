@@ -36,10 +36,10 @@ class Diary
   end
 
   def see_contact_numbers
-    @mobile_numbers = @entries.map do |entry|
+    @mobile_numbers = @entries.flat_map do |entry|
       extract_numbers_from_entry(entry) 
-    end.flatten
-    raise "No contact numbers found" if @mobile_numbers == []
+    end.uniq
+    error_message if @mobile_numbers == []
     return @mobile_numbers
   end
 
@@ -49,4 +49,7 @@ class Diary
     return entry.contents.scan(/0[0-9]{10}/)
   end
 
+  def error_message
+    raise "No contact numbers found"
+  end
 end
