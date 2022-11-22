@@ -81,6 +81,32 @@ RSpec.describe 'integration' do
     end
   end
 
+  describe '#see_contact_numbers' do
+    context 'when there is no contact number in the entries' do
+      it 'fails' do
+        diary = Diary.new
+        diary_entry_1 = DiaryEntry.new("title", "one two three")
+        diary_entry_2 = DiaryEntry.new("title_2", "hone two three four")
+        diary.add(diary_entry_1)
+        diary.add(diary_entry_2)
+        expect { diary.see_contact_numbers }.to raise_error "No contact numbers found"
+      end
+    end
+
+    context 'when there is at least one contact number in the entries' do
+      it 'shows a list of all contact numbers' do
+        diary = Diary.new
+        diary_entry_1 = DiaryEntry.new("title", "one two three")
+        diary_entry_2 = DiaryEntry.new("title_2", "his number is 07647382910")
+        diary_entry_3 = DiaryEntry.new("title_3", "her number is 07600082910")
+        diary.add(diary_entry_1)
+        diary.add(diary_entry_2)
+        diary.add(diary_entry_3)
+        expect(diary.see_contact_numbers).to eq ["07647382910", "07600082910"]
+      end
+    end
+  end
+
   describe '#add' do
     it 'adds a task to the todo list' do
       todo_list = TodoList.new
@@ -99,6 +125,5 @@ RSpec.describe 'integration' do
       expect(todo_list.see_tasks).to eq [task_1, task_2]
     end
   end
-      
 end
   
